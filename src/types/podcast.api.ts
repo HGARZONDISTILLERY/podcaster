@@ -7,11 +7,6 @@ type TImageAttributtes = {
   height: string
 }
 
-export type TImages = {
-  label: string
-  attributes: TImageAttributtes
-}
-
 type TContentAttributes = {
   term: string
   label: string
@@ -37,6 +32,11 @@ type TCategoryAttributes = {
 type TReleaseDateAttributes = {
   term: string
   label: string
+}
+
+export type TImages = {
+  label: string
+  attributes: TImageAttributtes
 }
 
 export type TPodcast = {
@@ -78,7 +78,7 @@ export type TPodcast = {
   }
 }
 
-export type TPodcastList = TPodcast[] | unknown
+export type TPodcastList = TPodcast[]
 
 export type TPodcastResponse = {
   feed: {
