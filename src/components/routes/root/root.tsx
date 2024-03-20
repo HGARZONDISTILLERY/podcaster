@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { Box, CircularProgress, TextField, Typography } from '@mui/material'
-import { usePodcasts } from '../../../api/itunes.api';
+import { Box, Card, CircularProgress, Grid, TextField, Typography } from '@mui/material'
+import { usePodcasts } from '../../../api/podcast.api';
 
 const Root = () => {
-  const { data, isLoading, error } = usePodcasts();
+  const { data: podcastData, isLoading, error } = usePodcasts();
 
   if (isLoading) {
     return <div>Cargando...</div>;
@@ -14,7 +14,7 @@ const Root = () => {
     return <div>Ocurrió un error al cargar la lista de podcasts.</div>;
   }
 
-  console.log('data', data)
+  console.log('data', podcastData)
 
   return (
     <Box sx={{maxWidth: '800px', margin: '0 auto', padding: '30px'}}>
@@ -36,6 +36,7 @@ const Root = () => {
           justifyContent: 'end'
         }}
       >
+        <Box>{podcastData?.length}</Box>
         <TextField 
           id="outlined-basic"
           label="Filter podcasts..."
@@ -44,6 +45,49 @@ const Root = () => {
             width: '300px'
           }} />
       </Box>
+      <Grid
+        container 
+        rowSpacing={1} 
+        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        sx={{
+          marginTop: '40px'
+        }}>
+      {
+            podcastData?.map((podcast: any) => (
+              <Grid
+                item
+                md={3}
+                sx={{
+                textAlign: 'center'
+                }}
+              >
+                <img 
+                  alt={podcast.title.label}
+                  src={podcast['im:image'][2].label}
+                  width='150px'
+                  style={{
+                    borderRadius: '50%',
+                  }}
+                />
+                <Card sx={{
+                  padding: '5px',
+                  position: 'relative',
+                  top: '-70px',
+                  zIndex: '-1',
+                  textAlign: 'center',
+                  paddingTop: '80px',
+                  height: '120px'
+                }}>
+                  <Typography variant='body2'>{podcast.title.label}</Typography>
+                  <Typography color='GrayText' variant='caption'>
+                    Author:{' '}
+                    {podcast['im:artist'].label}
+                  </Typography>
+                </Card>
+              </Grid>
+            ))
+          }
+      </Grid>
     </Box>
   )
 }

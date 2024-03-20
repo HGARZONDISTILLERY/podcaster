@@ -1,5 +1,3 @@
-import { QueryKey, useQuery } from '@tanstack/react-query';
-
 type TPriceAttributtes = {
   amount: string
   currency: string
@@ -7,6 +5,11 @@ type TPriceAttributtes = {
 
 type TImageAttributtes = {
   height: string
+}
+
+export type TImages = {
+  label: string
+  attributes: TImageAttributtes
 }
 
 type TContentAttributes = {
@@ -40,10 +43,7 @@ export type TPodcast = {
   'im:name': {
     label: string
   }
-  'im:image': {
-    label: string
-    attributes: TImageAttributtes
-  }
+  'im:image': TImages[]
   summary: {
     label: string
   }
@@ -78,23 +78,17 @@ export type TPodcast = {
   }
 }
 
-export type TPodcastList = TPodcast[]
+export type TPodcastList = TPodcast[] | unknown
 
-export const fetchPodcastList = async (): Promise<any> => {
-  const res = 
-    await fetch('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json');
-  console.log(res)
-    if (!res.ok) {
-    throw new Error('Network response was not ok');
+export type TPodcastResponse = {
+  feed: {
+    author: string
+    entry: string
+    icon: string
+    id: string
+    link: string
+    rights: string
+    title: string
+    updated: string
   }
-  const data = await res.json();
-  console.log(data)
-  return data;
-};
-
-export const usePodcasts = () => {
-  return useQuery<TPodcastList, Error, QueryKey>({
-    queryKey: ['sarasa'],
-    queryFn: fetchPodcastList,
-  });
-};
+}
