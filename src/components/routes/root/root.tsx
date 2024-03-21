@@ -5,6 +5,7 @@ import { usePodcasts } from '../../../api/podcast.api';
 import PodcastList from '../../PodcastList/podcastList';
 import { TPodcastList } from '../../../types/podcast.api';
 import PodcastHeader from '../../PodcastHeader/podcastHeader';
+import PodcastFilter from '../../PodcastFilter/podcastFilter';
 
 const Root: FC<{}> = () => {
   const { data: podcastData, isLoading, error } = usePodcasts();
@@ -22,6 +23,7 @@ const Root: FC<{}> = () => {
   return (
     <Box sx={{maxWidth: '800px', margin: '0 auto', padding: '30px'}}>
       <PodcastHeader isLoading={isLoading} podcasts={podcastData as TPodcastList} />
+      <PodcastFilter podcasts={podcastData as TPodcastList} />
       <PodcastList isLoading={isLoading} podcasts={podcastData as TPodcastList} />
     </Box>
   )

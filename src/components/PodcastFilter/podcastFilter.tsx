@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { TPodcastList } from '../../../../types/podcast.api';
+import { TPodcastList } from '../../types/podcast.api';
 
 const PodcastFilter: FC<{ podcasts: TPodcastList }> = ({ podcasts }) => {
   return (
