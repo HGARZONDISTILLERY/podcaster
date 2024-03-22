@@ -6,7 +6,9 @@ import {
 } from "react-router-dom"
 import Root from './components/routes/root/root'
 import ErrorPage from './components/routes/error/error'
-import Contact from './components/routes/details/details'
+import PodcastDetails from './components/routes/details/details'
+import PodcastEpisode from './components/PodcastEpisode/podcastEpisode';
+import ErrorBoundary from './components/ErrorBoundary/errorBoundary';
 
 const router = createBrowserRouter([
   {
@@ -16,13 +18,19 @@ const router = createBrowserRouter([
   },
   {
     path: "podcast/:podcastId",
-    element: <Contact />,
+    element: <PodcastDetails />,
   },
+  {
+    path: "podcast/:podcastId/episode/:episodeId",
+    element: <PodcastEpisode />,
+  }
 ])
 
 function App() {
   return (
+    <ErrorBoundary>
     <RouterProvider router={router} />
+    </ErrorBoundary>
   );
 }
 
