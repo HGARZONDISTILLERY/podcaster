@@ -20,9 +20,11 @@ export const usePodcasts = () => {
   })
 }
 
-export const fetchPodcastDetails = async (): Promise<TPodcastDetails> => {
+export const fetchPodcastDetails = async (
+  podcastId: string,
+): Promise<TPodcastDetails> => {
   const res = 
-    await fetch('https://itunes.apple.com/lookup?id=1275172907&media=podcast&entity=podcastEpisode&limit=20')
+    await fetch(`https://itunes.apple.com/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode&limit=20`)
     if (!res.ok) {
     throw new Error('Network response was not ok')
   }
@@ -35,9 +37,9 @@ export const fetchPodcastDetails = async (): Promise<TPodcastDetails> => {
   return podcastDetails
 }
 
-export const usePodcastDetail = () => {
+export const usePodcastDetail = (podcastId: string) => {
   return useQuery<any, Error, QueryKey>({
     queryKey: ['podcastDetail'],
-    queryFn: fetchPodcastDetails,
+    queryFn: () => fetchPodcastDetails(podcastId),
   })
 }

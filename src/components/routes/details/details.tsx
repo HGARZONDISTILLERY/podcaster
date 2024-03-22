@@ -5,13 +5,21 @@ import { useLocation } from 'react-router-dom'
 import { TPodcastDetails, TPodcastList } from '../../../types/podcast.api'
 import PodcastHeader from '../../PodcastHeader/podcastHeader'
 import { fetchPodcastDetails } from '../../../api/podcast.api'
+import dayjs from 'dayjs'
 
 const PodcastDetails: FC<{}> = () => {
   const { state } = useLocation()
   const [podcastDetails, setPodcastDetails] = useState<TPodcastDetails>()
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    fetchPodcastDetails().then(res => setPodcastDetails(res))
+    fetchPodcastDetails(state.podcast.id.attributes['im:id'])
+      .then(res => {
+        setPodcastDetails(res)
+      }).finally(() => {
+        setLoading(false)
+      })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -19,9 +27,21 @@ const PodcastDetails: FC<{}> = () => {
     console.log('state', state)
   }, [podcastDetails, state])
   
+  const calculatePodcastTime = (milliseconds: number) => {
+    let totalSeconds = dayjs().diff(milliseconds, 'second')
+
+    const totalHours = Math.floor(totalSeconds/(60*60))
+    totalSeconds = totalSeconds - (totalHours*60*60)
+    
+    const totalMinutes = Math.floor(totalSeconds/60)
+    totalSeconds = totalSeconds - (totalMinutes*60) 
+
+    return `${totalMinutes}:${totalSeconds}`
+  }
+
   return(
     <Box sx={{maxWidth: '800px', margin: '0 auto', padding: '30px'}}>
-      <PodcastHeader isLoading={state.isLoading} podcasts={state.podcastData as TPodcastList} />
+      <PodcastHeader isLoading={loading} podcasts={state.podcastData as TPodcastList} />
       <Grid container spacing={2}>
       <Grid item md={4} sx={{textAlign: 'center'}}>
          <Card sx={{ padding: '10px' }}>
@@ -53,14 +73,14 @@ const PodcastDetails: FC<{}> = () => {
               <TableBody>
                 {podcastDetails?.results.map((p) => (
                   <TableRow
-                    key={'test'}
+                    key={p.trackId}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
                       {p.trackName}
                     </TableCell>
-                    <TableCell align="right">{p.releaseDate}</TableCell>
-                    <TableCell align="right">{p.trackTimeMillis}</TableCell>
+                    <TableCell align="right">{dayjs(p.releaseDate).format('DD/MM/YYYY')}</TableCell>
+                    <TableCell align="right">{calculatePodcastTime(p.trackTimeMillis)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
