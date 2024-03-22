@@ -1,7 +1,7 @@
 
 import React, { FC, useEffect, useState } from 'react'
 import { Box, Card, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { TPodcastDetails, TPodcastList } from '../../../types/podcast.api'
 import PodcastHeader from '../../PodcastHeader/podcastHeader'
 import { fetchPodcastDetails } from '../../../api/podcast.api'
@@ -16,6 +16,8 @@ const PodcastDetails: FC<{}> = () => {
     fetchPodcastDetails(state.podcast.id.attributes['im:id'])
       .then(res => {
         setPodcastDetails(res)
+      }).catch(e => {
+        console.log('error:', e)
       }).finally(() => {
         setLoading(false)
       })
@@ -77,7 +79,14 @@ const PodcastDetails: FC<{}> = () => {
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {p.trackName}
+                      <Link
+                        to={{
+                          pathname: `/podcast/${state.podcast.id.attributes['im:id']}/episode/${p.trackId}`,
+                        }}
+                        state={{ ...state }}
+                      >
+                        {p.trackName}
+                      </Link>
                     </TableCell>
                     <TableCell align="right">{dayjs(p.releaseDate).format('DD/MM/YYYY')}</TableCell>
                     <TableCell align="right">{calculatePodcastTime(p.trackTimeMillis)}</TableCell>
