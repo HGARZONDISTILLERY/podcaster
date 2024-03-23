@@ -1,26 +1,24 @@
-import React from "react";
-
-import { Box, TextField } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box } from "@mui/material";
 import { usePodcasts } from "../../../api/podcast.api";
-import PodcastList from "../../PodcastList/podcastList";
 import { TPodcastList } from "../../../types/podcast.api";
+import Filter from "../../PodcastFilter/podcastFilter";
 import PodcastHeader from "../../PodcastHeader/podcastHeader";
+import PodcastList from "../../PodcastList/podcastList";
 
 const Root: React.FC<{}> = () => {
   const { data: podcastData, isLoading, error } = usePodcasts();
-  const [filteredPodcasts, setFilteredPodcasts] = React.useState<TPodcastList>(
-    podcastData as TPodcastList,
-  );
+  const [filteredPodcasts, setFilteredPodcasts] = useState<TPodcastList>(podcastData as TPodcastList);
 
   const filterPodcasts = (value: string): void => {
     const filterValue = value;
 
     if (podcastData && podcastData.length) {
-      if (filterValue !== "") {
+      if (filterValue !== '') {
         const filteredPodcasts: any = podcastData.filter((podcast: any) => {
           return (
             podcast?.title?.label.includes(filterValue) ||
-            podcast?.["im:artist"]?.label.includes(filterValue)
+            podcast?.['im:artist']?.label.includes(filterValue)
           );
         });
         setFilteredPodcasts(filteredPodcasts as TPodcastList);
@@ -28,15 +26,15 @@ const Root: React.FC<{}> = () => {
         setFilteredPodcasts(podcastData as TPodcastList);
       }
     } else {
-      console.log("Error: no hay datos de podcast disponibles");
+      console.log('Error: no hay datos de podcast disponibles');
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isLoading) {
-      filterPodcasts("");
+      filterPodcasts('');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
   if (error) {
@@ -44,43 +42,12 @@ const Root: React.FC<{}> = () => {
   }
 
   return (
-    <Box sx={{ maxWidth: "800px", margin: "0 auto", padding: "30px" }}>
+    <Box sx={{maxWidth: '800px', margin: '0 auto', padding: '30px'}}>
       <PodcastHeader isLoading={isLoading} />
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          marginBottom: "20px",
-          justifyContent: "end",
-        }}
-      >
-        <Box
-          sx={{
-            background: "#1976d2",
-            padding: "10px",
-            borderRadius: "5px",
-            color: "#fff",
-            width: "30px",
-            textAlign: "center",
-          }}
-        >
-          <strong>{filteredPodcasts?.length}</strong>
-        </Box>
-        <TextField
-          id="outlined-basic"
-          label="Filter podcasts..."
-          variant="outlined"
-          sx={{
-            width: "300px",
-            marginLeft: "20px",
-            justifyContent: "end",
-          }}
-          onChange={(event) => filterPodcasts(event.target.value)}
-        />
-      </Box>
+      <Filter filterPodcasts={filterPodcasts} />
       <PodcastList isLoading={isLoading} podcasts={filteredPodcasts} />
     </Box>
   );
 };
 
-export default Root;
+export default Root

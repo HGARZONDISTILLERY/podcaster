@@ -1,23 +1,33 @@
-import React, { FC } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { TPodcastList } from '../../types/podcast.api';
+import React from "react";
+import { Box, TextField } from "@mui/material";
 
-const PodcastFilter: FC<{ podcasts: TPodcastList }> = ({ podcasts }) => {
+interface FilterProps {
+  filterPodcasts: (value: string) => void;
+}
+
+const Filter: React.FC<FilterProps> = ({ filterPodcasts }) => {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-      <Box>{podcasts?.length}</Box>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        marginBottom: "20px",
+        justifyContent: "end",
+      }}
+    >
       <TextField
         id="outlined-basic"
         label="Filter podcasts..."
         variant="outlined"
         sx={{
-          width: '300px',
-          marginLeft: '20px'
+          width: "300px",
+          marginLeft: "20px",
+          justifyContent: "end",
         }}
+        onChange={(event) => filterPodcasts(event.target.value)}
       />
     </Box>
-  )
-}
+  );
+};
 
-export default PodcastFilter
+export default Filter;
