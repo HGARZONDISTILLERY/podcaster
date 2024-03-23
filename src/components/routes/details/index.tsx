@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import {
   Box,
   Card,
@@ -13,35 +13,23 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import { TPodcastDetails, TPodcastList } from "../../../types/podcast.api";
+import { TPodcastDetails } from "../../../types/podcast.api";
 import PodcastHeader from "../../PodcastHeader";
-import { fetchPodcastDetails } from "../../../api/podcast.api";
+import { useFetchPodcastDetail } from "../../../api/podcast.api";
 import dayjs from "dayjs";
 import PodcastDetailCard from "../../PodcastDetailCard";
 
 const PodcastDetails: FC<{}> = () => {
   const { state } = useLocation();
-  const [podcastDetails, setPodcastDetails] = useState<TPodcastDetails>();
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    fetchPodcastDetails(state.podcast.id.attributes["im:id"])
-      .then((res) => {
-        setPodcastDetails(res);
-      })
-      .catch((e) => {
-        console.log("error:", e);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    console.log("podcastDetails", podcastDetails);
-    console.log("state", state);
-  }, [podcastDetails, state]);
+  const {
+    data: podcastDetails,
+    isLoading,
+    error
+  }: {
+    data: TPodcastDetails | null | undefined;
+    isLoading: boolean;
+    error: Error | null
+  } = useFetchPodcastDetail(state.podcast.id.attributes["im:id"])
 
   const calculatePodcastTime = (milliseconds: number) => {
     let totalSeconds = dayjs().diff(milliseconds, "second");
@@ -55,9 +43,13 @@ const PodcastDetails: FC<{}> = () => {
     return `${totalMinutes}:${totalSeconds}`;
   };
 
+  if (error) {
+    return <div>An error occurred while loading the podcast details.</div>;
+  }
+
   return (
     <Box sx={{ maxWidth: "800px", margin: "0 auto", padding: "30px" }}>
-      <PodcastHeader isLoading={loading} />
+      <PodcastHeader isLoading={isLoading} />
       <Grid container spacing={2}>
       <PodcastDetailCard podcast={state?.podcast} />
         <Grid item md={8}>
