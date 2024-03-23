@@ -18,7 +18,7 @@ const PodcastList: FC<Props> = ({ podcasts, isLoading }) => {
         marginTop: '40px'
       }}
     >
-      {podcasts && podcasts.length ? podcasts?.map((podcast) => (
+      {podcasts?.length ? podcasts?.map((podcast) => (
         <Grid
           item
           md={3}

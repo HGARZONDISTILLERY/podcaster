@@ -10,7 +10,7 @@ const PodcastEpisode: FC<{}> = () => {
   
   return (
     <Box sx={{maxWidth: '800px', margin: '0 auto', padding: '30px'}}>
-      <PodcastHeader isLoading={state.isLoading} podcasts={state as TPodcastList} />
+      <PodcastHeader isLoading={state.isLoading} />
       test
     </Box>
   );

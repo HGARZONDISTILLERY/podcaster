@@ -43,7 +43,7 @@ const PodcastDetails: FC<{}> = () => {
 
   return(
     <Box sx={{maxWidth: '800px', margin: '0 auto', padding: '30px'}}>
-      <PodcastHeader isLoading={loading} podcasts={state.podcastData as TPodcastList} />
+      <PodcastHeader isLoading={loading} />
       <Grid container spacing={2}>
       <Grid item md={4} sx={{textAlign: 'center'}}>
         <Card sx={{ padding: '10px' }}>

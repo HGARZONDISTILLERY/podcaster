@@ -4,7 +4,7 @@ import { Box, Typography, CircularProgress } from '@mui/material';
 import { TPodcastList } from '../../types/podcast.api';
 import { Link } from 'react-router-dom';
 
-const PodcastHeader: FC<{ isLoading: boolean, podcasts: TPodcastList }> = ({ isLoading, podcasts }) => {
+const PodcastHeader: FC<{ isLoading: boolean }> = ({ isLoading }) => {
   return (
     <>
       <Box

@@ -15,6 +15,7 @@ const Root: React.FC<{}> = () => {
     const filterValue = value
 
     if (podcastData && podcastData.length) {
+      console.log('entra')
       if (filterValue !== '') {
         const filteredPodcasts: any = podcastData.filter((podcast: any) => {
           return (
@@ -32,13 +33,11 @@ const Root: React.FC<{}> = () => {
   }
 
   React.useEffect(() => {
-    filterPodcasts('')
+    if (!isLoading) {
+      filterPodcasts('')
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  }, [isLoading])
 
   if (error) {
     return <div>An error occurred while loading the podcast list.</div>;
@@ -46,11 +45,12 @@ const Root: React.FC<{}> = () => {
 
   return (
     <Box sx={{maxWidth: '800px', margin: '0 auto', padding: '30px'}}>
-      <PodcastHeader isLoading={isLoading} podcasts={podcastData as TPodcastList} />
+      <PodcastHeader isLoading={isLoading} />
       <Box sx={{
         display: 'flex',
         alignItems: 'center',
-        marginBottom: '20px'
+        marginBottom: '20px',
+        justifyContent: 'end'
         }}>
         <Box sx={{
           background: '#1976d2',
