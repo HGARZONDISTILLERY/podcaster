@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { usePodcasts } from "../../../api/podcast.api";
 import { TPodcastList } from "../../../types/podcast.api";
-import Filter from "../../PodcastFilter/podcastFilter";
-import PodcastHeader from "../../PodcastHeader/podcastHeader";
-import PodcastList from "../../PodcastList/podcastList";
+import Filter from "../../PodcastFilter";
+import PodcastHeader from "../../PodcastHeader";
+import PodcastList from "../../PodcastList";
 
 const Root: React.FC<{}> = () => {
   const { data: podcastData, isLoading, error } = usePodcasts();

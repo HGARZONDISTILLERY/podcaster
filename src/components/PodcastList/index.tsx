@@ -18,7 +18,7 @@ const PodcastList: FC<Props> = ({ podcasts, isLoading }) => {
         marginTop: '40px'
       }}
     >
-      {podcasts?.length ? podcasts?.map((podcast) => (
+      {podcasts?.map((podcast) => (
         <Grid
           item
           md={3}
@@ -63,7 +63,7 @@ const PodcastList: FC<Props> = ({ podcasts, isLoading }) => {
               </Card>
           </Link>
         </Grid>
-      )): <Typography>No Podcasts where found :(</Typography>}
+      ))}
     </Grid>
   );
 };

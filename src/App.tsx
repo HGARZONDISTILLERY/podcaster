@@ -1,13 +1,11 @@
-import React from 'react';
-
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom"
 import Root from './components/routes/root/root'
 import ErrorPage from './components/routes/error/error'
-import PodcastDetails from './components/routes/details/details'
-import PodcastEpisode from './components/PodcastEpisode/podcastEpisode';
+import PodcastDetails from './components/routes/details'
+import PodcastEpisode from './components/PodcastEpisode';
 import ErrorBoundary from './components/ErrorBoundary/errorBoundary';
 
 const router = createBrowserRouter([

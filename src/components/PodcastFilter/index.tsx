@@ -1,11 +1,11 @@
 import React from "react";
 import { Box, TextField } from "@mui/material";
 
-interface FilterProps {
+interface Props {
   filterPodcasts: (value: string) => void;
 }
 
-const Filter: React.FC<FilterProps> = ({ filterPodcasts }) => {
+const Filter: React.FC<Props> = ({ filterPodcasts }) => {
   return (
     <Box
       sx={{

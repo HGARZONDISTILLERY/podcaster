@@ -14,9 +14,10 @@ import {
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { TPodcastDetails, TPodcastList } from "../../../types/podcast.api";
-import PodcastHeader from "../../PodcastHeader/podcastHeader";
+import PodcastHeader from "../../PodcastHeader";
 import { fetchPodcastDetails } from "../../../api/podcast.api";
 import dayjs from "dayjs";
+import PodcastDetailCard from "../../PodcastDetailCard";
 
 const PodcastDetails: FC<{}> = () => {
   const { state } = useLocation();
@@ -58,27 +59,7 @@ const PodcastDetails: FC<{}> = () => {
     <Box sx={{ maxWidth: "800px", margin: "0 auto", padding: "30px" }}>
       <PodcastHeader isLoading={loading} />
       <Grid container spacing={2}>
-        <Grid item md={4} sx={{ textAlign: "center" }}>
-          <Card sx={{ padding: "10px" }}>
-            <img alt={""} src={state?.podcast["im:image"][2].label} />
-            <hr />
-            <Box sx={{ textAlign: "left" }}>
-              <Typography variant="body1" sx={{ marginLeft: "10px" }}>
-                <strong>{state?.podcast["im:name"].label}</strong>
-              </Typography>
-              <Typography variant="caption" sx={{ marginLeft: "10px" }}>
-                By: {state?.podcast["im:artist"].label}
-              </Typography>
-              <hr />
-              <Typography>
-                <strong>Description</strong>
-              </Typography>
-              <Typography variant="body2">
-                <i>{state?.podcast.summary.label}</i>
-              </Typography>
-            </Box>
-          </Card>
-        </Grid>
+      <PodcastDetailCard podcast={state?.podcast} />
         <Grid item md={8}>
           <Card sx={{ padding: "20px" }}>
             <Typography variant="body1">
