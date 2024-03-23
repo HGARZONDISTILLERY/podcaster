@@ -106,32 +106,35 @@ const PodcastDetails: FC<{}> = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {podcastDetails?.results.map((p) => (
+                  {podcastDetails?.results.map((episode) => (
                     <TableRow
-                      key={p.trackId}
+                      key={episode.trackId}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
                         <Link
                           to={{
-                            pathname: `/podcast/${state.podcast.id.attributes["im:id"]}/episode/${p.trackId}`,
+                            pathname: `/podcast/${state.podcast.id.attributes["im:id"]}/episode/${episode.trackId}`,
                           }}
-                          state={{ ...state }}
+                          state={{
+                            episode: episode,
+                            ...state,
+                          }}
                           style={{
                             textDecoration: "none",
                             color: "#1976d2",
                           }}
                         >
                           <Typography variant="body2" sx={{}}>
-                            {p.trackName}
+                            {episode.trackName}
                           </Typography>
                         </Link>
                       </TableCell>
                       <TableCell align="right">
-                        {dayjs(p.releaseDate).format("DD/MM/YYYY")}
+                        {dayjs(episode.releaseDate).format("DD/MM/YYYY")}
                       </TableCell>
                       <TableCell align="right">
-                        {calculatePodcastTime(p.trackTimeMillis)}
+                        {calculatePodcastTime(episode.trackTimeMillis)}
                       </TableCell>
                     </TableRow>
                   ))}
