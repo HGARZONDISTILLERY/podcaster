@@ -15,7 +15,6 @@ const Root: React.FC<{}> = () => {
     const filterValue = value
 
     if (podcastData && podcastData.length) {
-      console.log('entra')
       if (filterValue !== '') {
         const filteredPodcasts: any = podcastData.filter((podcast: any) => {
           return (
