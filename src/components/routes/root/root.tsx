@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 
 import { Box, TextField } from '@mui/material'
 import { usePodcasts } from '../../../api/podcast.api';
@@ -6,8 +6,29 @@ import PodcastList from '../../PodcastList/podcastList';
 import { TPodcastList } from '../../../types/podcast.api';
 import PodcastHeader from '../../PodcastHeader/podcastHeader';
 
-const Root: FC<{}> = () => {
+const Root: React.FC<{}> = () => {
   const { data: podcastData, isLoading, error } = usePodcasts();
+  const [filteredPodcasts, setFilteredPodcasts] = React.useState<TPodcastList>(podcastData as TPodcastList)
+
+  const filterPodcasts = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const filterValue = event.target.value
+
+    if (podcastData && podcastData.length) {
+      if (filterValue !== '') {
+        const filteredPodcasts: any = podcastData.filter((podcast: any) => {
+          return (
+            podcast?.title?.label.includes(filterValue) ||
+            podcast?.['im:artist']?.label.includes(filterValue)
+          )
+        })
+        setFilteredPodcasts(filteredPodcasts as TPodcastList)
+      } else {
+        setFilteredPodcasts(podcastData as TPodcastList)
+      }
+    } else {
+      console.log('Error: no hay datos de podcast disponibles')
+    }
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -17,8 +38,6 @@ const Root: FC<{}> = () => {
     return <div>An error occurred while loading the podcast list.</div>;
   }
 
-  console.log('data', podcastData)
-
   return (
     <Box sx={{maxWidth: '800px', margin: '0 auto', padding: '30px'}}>
       <PodcastHeader isLoading={isLoading} podcasts={podcastData as TPodcastList} />
@@ -27,18 +46,27 @@ const Root: FC<{}> = () => {
         alignItems: 'center',
         marginBottom: '20px'
         }}>
-        <Box>{podcastData?.length}</Box>
+        <Box sx={{
+          background: '#1976d2',
+          padding: '10px',
+          borderRadius: '5px',
+          color: '#fff',
+          width: '30px',
+          textAlign: 'center'
+        }}><strong>{filteredPodcasts?.length}</strong></Box>
         <TextField
           id="outlined-basic"
           label="Filter podcasts..."
           variant="outlined"
           sx={{
             width: '300px',
-            marginLeft: '20px'
+            marginLeft: '20px',
+            justifyContent: 'end'
           }}
+          onChange={(event) => filterPodcasts(event as React.ChangeEvent<HTMLInputElement>)}
         />
       </Box>
-      <PodcastList isLoading={isLoading} podcasts={podcastData as TPodcastList} />
+      <PodcastList isLoading={isLoading} podcasts={filteredPodcasts} />
     </Box>
   )
 }

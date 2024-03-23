@@ -1,7 +1,7 @@
 import { QueryKey, useQuery } from '@tanstack/react-query';
-import { TPodcastDetails, TPodcastList, TPodcastResultDetail } from '../types/podcast.api';
+import { TPodcastDetails, TPodcastList } from '../types/podcast.api';
 
-export const fetchPodcastList = async (): Promise<any> => {
+export const fetchPodcastList = async (): Promise<TPodcastList> => {
   const res = 
     await fetch('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json')
     if (!res.ok) {

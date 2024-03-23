@@ -46,7 +46,7 @@ const PodcastDetails: FC<{}> = () => {
       <PodcastHeader isLoading={loading} podcasts={state.podcastData as TPodcastList} />
       <Grid container spacing={2}>
       <Grid item md={4} sx={{textAlign: 'center'}}>
-         <Card sx={{ padding: '10px' }}>
+        <Card sx={{ padding: '10px' }}>
           <img alt={''} src={state?.podcast['im:image'][2].label} />
           <hr />
           <Box sx={{textAlign: 'left'}}>
