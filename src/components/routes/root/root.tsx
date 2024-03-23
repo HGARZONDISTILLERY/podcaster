@@ -8,10 +8,11 @@ import PodcastHeader from '../../PodcastHeader/podcastHeader';
 
 const Root: React.FC<{}> = () => {
   const { data: podcastData, isLoading, error } = usePodcasts();
+  console.log('podcastData', podcastData)
   const [filteredPodcasts, setFilteredPodcasts] = React.useState<TPodcastList>(podcastData as TPodcastList)
 
-  const filterPodcasts = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const filterValue = event.target.value
+  const filterPodcasts = (value: string): void => {
+    const filterValue = value
 
     if (podcastData && podcastData.length) {
       if (filterValue !== '') {
@@ -29,6 +30,11 @@ const Root: React.FC<{}> = () => {
       console.log('Error: no hay datos de podcast disponibles')
     }
   }
+
+  React.useEffect(() => {
+    filterPodcasts('')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -63,7 +69,7 @@ const Root: React.FC<{}> = () => {
             marginLeft: '20px',
             justifyContent: 'end'
           }}
-          onChange={(event) => filterPodcasts(event as React.ChangeEvent<HTMLInputElement>)}
+          onChange={(event) => filterPodcasts(event.target.value)}
         />
       </Box>
       <PodcastList isLoading={isLoading} podcasts={filteredPodcasts} />
