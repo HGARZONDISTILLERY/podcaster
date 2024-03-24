@@ -22,11 +22,15 @@ export const usePodcasts = () => {
   });
 };
 
+// Tried using the AllOrigins plugin with no luck.
+// I tried this from the example `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+
 export const fetchPodcastDetails = async (
   podcastId: string,
 ): Promise<TPodcastDetails> => {
+  const url = `https://itunes.apple.com/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode&limit=20`
   const res = await fetch(
-    `https://itunes.apple.com/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode&limit=20`,
+    `${url}`,
   );
   if (!res.ok) {
     throw new Error("Network response was not ok");
@@ -44,6 +48,5 @@ export const useFetchPodcastDetail = (podcastId: string) => {
   return useQuery<TPodcastDetails, Error>({
     queryKey: ["podcastDetail"],
     queryFn: () => fetchPodcastDetails(podcastId),
-    staleTime: 24 * 60 * 60 * 1000,
   });
 };
