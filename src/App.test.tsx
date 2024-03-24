@@ -1,9 +1,14 @@
-import React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders Podcaster title', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/podcaster/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders the Root component for the "/" path', () => {
+  const queryClient = new QueryClient();
+
+  render(<QueryClientProvider client={queryClient}><App /></QueryClientProvider>);
+
+  // Ensure the Root component is rendered
+  const rootElement = screen.getByText(/Podcaster/i);
+  expect(rootElement).toBeInTheDocument();
 });
