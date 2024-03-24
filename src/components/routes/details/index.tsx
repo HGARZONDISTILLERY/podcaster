@@ -24,11 +24,11 @@ const PodcastDetails: FC<{}> = () => {
   const {
     data: podcastDetails,
     isLoading,
-    error
+    error,
   }: {
     data: TPodcastDetails | null | undefined;
     isLoading: boolean;
-    error: Error | null
+    error: Error | null,
   } = useFetchPodcastDetail(state.podcast.id.attributes["im:id"])
 
   const calculatePodcastTime = (milliseconds: number) => {
