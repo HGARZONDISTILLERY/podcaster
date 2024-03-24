@@ -30,7 +30,6 @@ type TCategoryAttributes = {
 }
 
 type TReleaseDateAttributes = {
-  term: string
   label: string
 }
 
