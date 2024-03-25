@@ -1,5 +1,5 @@
 import { FC } from "react";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 
 import { Box, Card, Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -25,7 +25,7 @@ const PodcastEpisode: FC<{}> = () => {
               <strong>{episode?.trackName}</strong>
             </Typography>
             <Typography variant="body1" sx={{ marginBottom: "20px" }}>
-              <i>{parse(episode?.shortDescription)}</i>
+              <i>{episode?.shortDescription}</i>
             </Typography>
             <audio controls src={episode?.episodeUrl}></audio>
           </Card>
